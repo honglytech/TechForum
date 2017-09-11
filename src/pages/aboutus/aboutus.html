@@ -1,0 +1,25 @@
+	<!--
+	This is the About Page that contains Terms of Service, Privacy Policy and Legal information.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>About</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list>
+	    <ion-item>
+	    	<h3>Terms of Service</h3>	    	
+	    </ion-item>	  
+	    <ion-item>	    	
+	    	<h3>Privacy Policy</h3>
+	    </ion-item>  
+	    <ion-item detail-push>
+	    	<button ion-button clear item (click)="onGoToLegal()">Legal</button>         
+	    </ion-item>  
+	</ion-list>
+</ion-content>

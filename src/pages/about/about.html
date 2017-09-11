@@ -1,0 +1,38 @@
+<!--
+	This is the About User Page	as shown on the second tab of the app. 
+-->
+<ion-header>
+	<ion-toolbar>
+		<ion-title>You</ion-title>	<!-- Title of the page-->
+		 
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>	<!-- supports various interaction modes such as swipe to edit, drag to reorder, and removing items -->
+		<ion-item>	<!-- this tag can contain text, images, and more -->
+			<ion-avatar item-start> <!-- an avatar is a component that creates a circular image for an item -->
+				<img src="assets/image/hong.jpg">
+			</ion-avatar>
+			<h2>Hong Ly</h2>			
+			<button ion-button clear item (click)="onGoToProfile()">Edit profile</button>
+		</ion-item>
+	</ion-list>
+
+  	<ion-list>
+	    <ion-item>
+	    	<h3>Bookmarks</h3>	    	      
+	    </ion-item>	
+	</ion-list>
+
+	<ion-list>
+	    <ion-item>		      
+	    	<button ion-button clear item (click)="onGoToFollowing()">Following: 12</button>
+	 	</ion-item>
+	    
+	    <ion-item>
+	    	<button ion-button clear item (click)="onGoToFollowers()">Followers: 28</button>      
+	    </ion-item> 
+	</ion-list>
+	
+</ion-content>

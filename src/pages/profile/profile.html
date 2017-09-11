@@ -1,0 +1,41 @@
+<ion-header>
+	<ion-navbar>
+		<ion-title>Edit Profile</ion-title>
+		<ion-buttons end>
+			<button ion-button icon-only>
+				<!-- this button will be used to save for all changes when user edit the profile info -->
+				<ion-icon name="checkmark-circle-outline"></ion-icon>
+			</button>
+		</ion-buttons>
+	</ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+	<ion-list no-lines>	<!-- list with no lines -->
+		<ion-item>
+			<ion-avatar item-start>
+				<img src="assets/image/hong.jpg">
+			</ion-avatar>
+
+			<button ion-button clear>
+		    	Change profile picture
+		  	</button>									  	
+		</ion-item>
+
+		<ion-item>
+    		<ion-label stacked>Name</ion-label>		<!-- a stacked label will always appear on top of the input -->
+    		<ion-input type="text" value="Hong Ly"></ion-input>
+  		</ion-item>
+
+  		<ion-item>
+      		<ion-label stacked>About</ion-label>
+    		<ion-input type="text" value="I am passionate in technology."></ion-input>           
+    	</ion-item>
+
+    	<ion-item>
+      		<ion-label stacked>Change password</ion-label>
+    		<ion-input type="password"></ion-input>           
+    	</ion-item>
+	</ion-list>
+</ion-content>
