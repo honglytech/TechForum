@@ -1,14 +1,50 @@
-<!-- This page will be used in upcoming version for posting new topics in the forum
--->
 <ion-header>
 
   <ion-navbar>
-    <ion-title>post</ion-title>
+    <ion-title>{{ mode }} Post</ion-title>
   </ion-navbar>
 
 </ion-header>
 
 
 <ion-content padding>
+	<form [formGroup]="postForm" (ngSubmit)="onSubmit()">  <!-- Binding formGroup property instead of using Angular form -->
+    <ion-list>
+      <ion-item>
+        <ion-label floating>Title</ion-label>
+        <ion-input
+          type="text"
+          formControlName="title"></ion-input>
+      </ion-item>
+      <ion-item>
+        <ion-label floating>Description</ion-label>
+        <ion-textarea formControlName="description"></ion-textarea>
+      </ion-item>      
+    </ion-list>
 
+    <button
+      type="button"
+      clear
+      ion-button
+      block
+      (click)="onEditPosts()">Edit Posts
+    </button>
+
+    <!-- Form array is synchronized with the template -->
+    <ion-list formArrayName="details">
+      <!-- Loop through all detail controls in postForm and store the index of controls in i -->
+      <ion-item *ngFor="let igControl of postForm.get('details').controls; let i = index">
+        <ion-label floating>Name</ion-label>
+        <ion-input type="text" [formControlName]="i"></ion-input>
+      </ion-item>
+    </ion-list>
+
+    <!-- Disable is the form is not valid -->
+    <button
+      type="submit"
+      ion-button      
+      block [disabled]="!postForm.valid">   
+      {{ mode }} Post
+    </button>  
+  </form>
 </ion-content>

@@ -5,6 +5,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
 import { ScreenOrientation} from '@ionic-native/screen-orientation';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
+import { PostsService } from "../services/posts";
 import { AuthService } from "../services/auth";
 
 // Import all pages from each particular page
@@ -71,6 +72,7 @@ import { FollowersPage } from '../pages/followers/followers';
     DeviceOrientation,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
+    PostsService,
     AuthService
   ]
 })
