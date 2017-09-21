@@ -1,29 +1,24 @@
 import { Post } from "../models/post";
 import { Detail } from "../models/detail";
+import { Injectable } from "@angular/core";
+import { Http, Response } from "@angular/http";
+import 'rxjs/Rx';   // is used by .map method 
+import { AuthService } from "./auth";
 
-// import { Injectable } from "@angular/core";
-// import { Http, Response } from "@angular/http";
-// import 'rxjs/Rx';
-
-
-// import { Ingredient } from "../models/ingredient";
-// import { AuthService } from "./auth";
-
-//@Injectable()
+@Injectable() // Angular HTTP service
 export class PostsService {
-
   // Post array imported from models/post 
   private posts: Post[] = [];
 
-  //constructor(private http: Http, private authService: AuthService) {}
+  constructor(private http: Http, private authService: AuthService) {}
 
   // addPost method is used to add new posts
   addPost(title: string,
-          description: string,      
-          details: Detail[]
-          ) {
+          description: string,
+          details: Detail[]) {
+    // Access posts array and push detail post on it 
     this.posts.push(new Post(title, description, details));
-    console.log(this.posts);
+    //console.log(this.recipes);
   }
 
   // getPosts method will retrieve posts by copying the posts using slice method
@@ -45,30 +40,38 @@ export class PostsService {
     this.posts.splice(index, 1);
   }
 
-  // storeList(token: string) {
-  //   const userId = this.authService.getActiveUser().uid;
-  //   return this.http.put('https://ionic2-recipebook.firebaseio.com/' + userId + '/recipes.json?auth=' + token, this.recipes)
-  //     .map((response: Response) => response.json());
-  // }
+  // storePost is a method to store all posts with token
+  storePost(token: string) {
+    const userId = this.authService.getActiveUser().uid;
+    // http.put will overwrite the old data
+    // userId is the current user id 
+    // posts.json; "posts" can be any names, it is just a name on firebase, but json is mandatory extension
+    // this.posts will be sent as a list of posts in json file to firebase 
+    return this.http.put('https://techforum-c6c2a.firebaseio.com/' + userId + '/posts.json?auth=' + token, this.posts)
+      .map((response: Response) => response.json());
+  }
 
-  // fetchList(token: string) {
-  //   const userId = this.authService.getActiveUser().uid;
-  //   return this.http.get('https://ionic2-recipebook.firebaseio.com/' + userId + '/recipes.json?auth=' + token)
-  //     .map((response: Response) => {
-  //       const recipes: Recipe[] = response.json() ? response.json() : [];
-  //       for (let item of recipes) {
-  //         if (!item.hasOwnProperty('ingredients')) {
-  //           item.ingredients = [];
-  //         }
-  //       }
-  //       return recipes;
-  //     })
-  //     .do((recipes: Recipe[]) => {
-  //       if (recipes) {
-  //         this.recipes = recipes;
-  //       } else {
-  //         this.recipes = [];
-  //       }
-  //     });
-  // }
+  // fetchPost is a method to get all posts from firebase with token
+  fetchPost(token: string) {
+    const userId = this.authService.getActiveUser().uid;
+    return this.http.get('https://techforum-c6c2a.firebaseio.com/' + userId + '/posts.json?auth=' + token)
+      .map((response: Response) => {
+        const posts: Post[] = response.json() ? response.json() : [];
+        for (let post of posts) {
+          if (!post.hasOwnProperty('posts')) {
+            post.details = [];
+          }
+        }
+        return posts;
+      })
+      // .do is similar to .subscribe, it allows to use the response data if someone else subscribes
+      .do((posts: Post[]) => {
+        if (posts) {
+          // overwrite posts
+          this.posts = posts;
+        } else {
+          this.posts = [];
+        }
+      });
+  }
 }

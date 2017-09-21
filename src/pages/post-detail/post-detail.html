@@ -1,0 +1,48 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{ post.title }}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col text-center>
+        <h2>{{ post.title }}</h2>        
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col text-center>
+        <p>{{ post.description }}</p>
+      </ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col>
+        <ion-list>
+          <!-- Get the detail post from models of detail.ts -->
+          <ion-item *ngFor="let detail of post.details">
+            {{ detail.name }}
+          </ion-item>
+        </ion-list>
+      </ion-col>
+    </ion-row>
+
+    <ion-row>
+      <ion-col>
+        <button
+          ion-button
+          outline
+          block
+          (click)="onEditPost()">Edit Post</button>
+      </ion-col>
+      <ion-col>
+        <button
+          ion-button
+          outline
+          block
+          (click)="onDeletePost()"
+          color="danger">Delete Post</button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+</ion-content>

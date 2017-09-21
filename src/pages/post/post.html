@@ -1,6 +1,7 @@
 <ion-header>
 
   <ion-navbar>
+    <!-- Title could be New Post or Edit Post based on mode -->
     <ion-title>{{ mode }} Post</ion-title>
   </ion-navbar>
 
@@ -10,15 +11,16 @@
 <ion-content padding>
 	<form [formGroup]="postForm" (ngSubmit)="onSubmit()">  <!-- Binding formGroup property instead of using Angular form -->
     <ion-list>
-      <ion-item>
+      <ion-item>      
         <ion-label floating>Title</ion-label>
-        <ion-input
+        <!-- type: text is came from post.ts of Initialize FormGroup -->
+        <ion-input        
           type="text"
           formControlName="title"></ion-input>
       </ion-item>
       <ion-item>
         <ion-label floating>Description</ion-label>
-        <ion-textarea formControlName="description"></ion-textarea>
+        <ion-textarea rows="8" formControlName="description"></ion-textarea>
       </ion-item>      
     </ion-list>
 
@@ -31,10 +33,12 @@
     </button>
 
     <!-- Form array is synchronized with the template -->
-    <ion-list formArrayName="details">
-      <!-- Loop through all detail controls in postForm and store the index of controls in i -->
+    <!-- ion-list is a parent element -->
+    <ion-list formArrayName="details">  
+      <!-- Loop through all detail post controls in postForm, store each individual control in igControl variable and also store the index of each control in i -->
       <ion-item *ngFor="let igControl of postForm.get('details').controls; let i = index">
-        <ion-label floating>Name</ion-label>
+        <!-- Name of author -->
+        <ion-label floating>Author Name</ion-label>
         <ion-input type="text" [formControlName]="i"></ion-input>
       </ion-item>
     </ion-list>

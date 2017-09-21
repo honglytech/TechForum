@@ -7,6 +7,9 @@ import { ScreenOrientation} from '@ionic-native/screen-orientation';
 import { DeviceOrientation } from '@ionic-native/device-orientation';
 import { PostsService } from "../services/posts";
 import { AuthService } from "../services/auth";
+// https://forum.ionicframework.com/t/no-provider-for-http-error-in-ionic/85762/2
+import { HttpModule } from '@angular/http';
+import { IonicStorageModule } from '@ionic/storage';
 
 // Import all pages from each particular page
 import { MyApp } from './app.component';
@@ -23,6 +26,8 @@ import { LegalPage } from '../pages/legal/legal';
 import { AboutusPage } from '../pages/aboutus/aboutus';
 import { FollowingPage } from '../pages/following/following';
 import { FollowersPage } from '../pages/followers/followers';
+import { PostDetailPage } from '../pages/post-detail/post-detail';
+
 
 
 @NgModule({
@@ -41,11 +46,14 @@ import { FollowersPage } from '../pages/followers/followers';
     LegalPage,
     AboutusPage,
     FollowingPage,
-    FollowersPage
+    FollowersPage,
+    PostDetailPage
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    HttpModule,
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -63,7 +71,8 @@ import { FollowersPage } from '../pages/followers/followers';
     LegalPage,
     AboutusPage,
     FollowingPage,
-    FollowersPage
+    FollowersPage,
+    PostDetailPage    
   ],
   providers: [
     // For new plugins such as ScreenOrientation & DeviceOrientation must be included here

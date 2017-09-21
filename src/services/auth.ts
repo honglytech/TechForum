@@ -10,15 +10,18 @@ export class AuthService {
 		return firebase.auth().createUserWithEmailAndPassword(email, password);
 	}
 
+	// Sign user in method 
 	signin(email: string, password: string) {
 		return firebase.auth().signInWithEmailAndPassword(email, password);
 	}
 
+	// Sign out and deletes current user's token
 	logout() {
-    	firebase.auth().signOut();	// Sign out and deletes current user's token
+    	firebase.auth().signOut();	
   	}
 
+	// Return the current authenticated user
   	getActiveUser() {
-    	return firebase.auth().currentUser;		// returns the current authenticated user
+    	return firebase.auth().currentUser;		
   }
 }

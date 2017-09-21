@@ -22,6 +22,7 @@
 			</button>
 		</ion-buttons>
 
+		<!-- Feature will be implemented in upcoming versions -->
 		<ion-segment>	<!-- a segment is a group of buttons allows users to interact with a compact group of a number of controls -->
 			<ion-segment-button value="new">
 				New
@@ -31,6 +32,7 @@
 			</ion-segment-button>
 		</ion-segment>
 
+		<!-- Feature will be implemented in upcoming versions -->
 		<ion-buttons end>
 			<button ion-button icon-only>
 				<!-- search icon on top right of the screen  -->
@@ -45,188 +47,28 @@
 
 <ion-card>	<!-- card is a great way to display important pieces of content, and are quickly emerging as a core design pattern for apps.  -->
 	<ion-item>
-		<ion-avatar item-start>
-			<img src="assets/image/user-1.png">
-			<!-- "Push Notifications in Ionic – Ankush Aggarwal – Medium", Medium, 2017. [Online]. Available: https://medium.com/@ankushaggarwal/push-notifications-in-ionic-2-658461108c59. [Accessed: 19- Jul- 2017]. -->
-		</ion-avatar>
-		<h2>Ankush Aggarwal</h2>
-		<p>Jul 19, 2017</p>
+		
+	    <button
+	      ion-item	      
+	      *ngFor="let post of posts; let i = index"
+	      (click)="onLoadPost(post, i)">	
+	      <!-- onLoadPost(post, i) is getting index so that it can be used with updatePost method in services of posts.ts -->
+
+	      <ion-avatar item-start>
+			<img src="assets/image/hong.jpg">
+		  </ion-avatar>
+
+	      <h2>{{ post.title }}</h2>  
+
+          <p>{{ post.description }}</p>
+     
+	      <ion-note *ngFor="let detail of post.details">
+            {{ detail.name }}
+          </ion-note>
+
+	    </button>
 	</ion-item>
-
-  	<img src="assets/image/ionic-push-notification-flow.png">
-
-	<ion-card-content>
-		<!-- Dummy data -->
-		<h2>Ionic Push Notification - Android and iOS working</h2>
-		<p>Hello all Ionites! Implementing push notification in iOS or Android can be quite difficult. After asking so many forum/stackoverflow questions, I'm finally...
-		</p>
-		<!-- "Ionic Push Notification - Android and iOS working", Ionic, 2017. [Online]. Available: https://forum.ionicframework.com/t/ionic-push-notification-android-and-ios-working/64004. [Accessed: 19- Jul- 2017]. -->
-	</ion-card-content>
-
-	<ion-row>
-		<ion-col>
-			<button ion-button color="primary" clear small icon-start>
-		    	<ion-icon name='thumbs-up'></ion-icon>
-		    	88 Likes
-		  	</button>
-		</ion-col>
-		<ion-col>
-		  	<button ion-button color="primary" clear small icon-start>
-		    	<ion-icon name='text'></ion-icon>
-		    	24 Comments
-		  	</button>		
-		</ion-col>
-		<ion-col>
-		  	<button ion-button clear small icon-start>
-		    	<ion-icon name='bookmark'></ion-icon>		    	
-		  	</button>		
-		</ion-col>
-		<ion-col align-self-center text-center>
-		 	 <ion-note>
-		  	  11h ago
-		  	</ion-note>
-		</ion-col>
-	</ion-row>
 </ion-card>
 <!-- end danielsogl's idea -->
-
-<ion-list>
-    <button
-      ion-item
-      *ngFor="let post of posts; let i = index"
-      (click)="onLoadPost(post, i)">
-      <h2>{{ post.title }}</h2>      
-    </button>
-</ion-list>
-
-
-<ion-card>
-	<ion-item>
-		<ion-avatar item-start>
-		  	<img src="assets/image/user-2.png">
-		</ion-avatar>
-			<h2>Jack Connor</h2>
-			<p>May 26, 2017</p>
-	</ion-item>
-
-    <img src="assets/image/swift-UI-libraries.png">
-
-  	<ion-card-content>
-  		<h2>39 Open Source Swift UI Libraries For iOS App Development.</h2>
-   	 	<p>Open source libraries can be sweet and they can make your life dramatically easier in building your iOS apps...</p>
-   	 	<!-- "39 Open Source Swift UI Libraries For iOS App Development", Mybridge for Professionals, 2017. [Online]. Available: https://medium.mybridge.co/39-open-source-swift-ui-libraries-for-ios-app-development-da1f8dc61a0f. [Accessed: 20- Jul- 2017]. -->
-  	</ion-card-content>
-
-  	<ion-row>
-    	<ion-col>
-      		<button ion-button color="primary" clear small icon-start>
-        <ion-icon name='thumbs-up'></ion-icon>
-        40 Likes
-      		</button>
-	    </ion-col>
-	    <ion-col>
-	      	<button ion-button color="primary" clear small icon-start>
-	        	<ion-icon name='text'></ion-icon>
-	       		52 Comments
-	      	</button>
-	    </ion-col>
-	    <ion-col>
-		  	<button ion-button clear small icon-start>
-		    	<ion-icon name='bookmark'></ion-icon>		    	
-		  	</button>		
-		</ion-col>
-	    <ion-col align-self-center text-center>
-	      	<ion-note>
-	        	3d ago
-	      	</ion-note>
-	    </ion-col>
-  	</ion-row>
-</ion-card>
-
-<ion-card>
-	<ion-item>
-    	<ion-avatar item-start>
-      		<img src="assets/image/user-3.jpg">
-    	</ion-avatar>
-    	<h2>Jason Cipriani</h2>
-    	<p>July 1, 2017</p>
-  	</ion-item>
-
-  	<img src="assets/image/iOS-11-stop-tracking.png">
-
-	<ion-card-content>
-		<h2>iOS 11 will stop apps like Uber from constantly tracking your location</h2>
-	  	<p>When iOS 11 is widely available later this year, users will have the option to customize how each app uses his or her location...</p>
-	  	<!-- "iOS 11 will stop apps like Uber from constantly tracking your location", CNET, 2017. [Online]. Available: https://www.cnet.com/au/how-to/how-to-stop-apps-from-constantly-tracking-your-location-in-ios-11/. [Accessed: 20- Jul- 2017]. -->
-	</ion-card-content>
-
-	<ion-row>
-		<ion-col>
-		  	<button ion-button color="primary" clear small icon-start>
-		    	<ion-icon name='thumbs-up'></ion-icon>
-		    	46 Likes
-		  	</button>
-		</ion-col>
-		<ion-col>
-		  	<button ion-button color="primary" clear small icon-start>
-		    	<ion-icon name='text'></ion-icon>
-		    	66 Comments
-		  	</button>
-		</ion-col>
-		<ion-col>
-		  	<button ion-button clear small icon-start>
-		    	<ion-icon name='bookmark'></ion-icon>		    	
-		  	</button>		
-		</ion-col>
-		<ion-col align-self-center text-center>
-		  	<ion-note>
-		    	3w ago
-		  	</ion-note>
-		</ion-col>
-	</ion-row>
-</ion-card>
-
-<ion-card>
-	<ion-item>
-    	<ion-avatar item-start>
-      		<img src="assets/image/user-4.jpg">
-    	</ion-avatar>
-    	<h2>Kaya Yurieff</h2>
-    	<p>July 25, 2017</p>
-  	</ion-item>
-
-  	<img src="assets/image/google-sos-alerts.jpg">
-
-	<ion-card-content>
-		<h2>Google unveils SOS Alerts to help during a crisis</h2>
-	  	<p>Google wants to help in a crisis. The tech giant on Tuesday introduced SOS Alerts, a new tool in Google Search and Maps that assists users...</p>
-	  	<!-- K. Yurieff, "Google unveils SOS Alerts for Maps and Search to help during a crisis", CNNMoney, 2017. [Online]. Available: http://money.cnn.com/2017/07/25/technology/google-sos-alerts/index.html. [Accessed: 21- Jul- 2017]. -->
-	</ion-card-content>
-
-	<ion-row>
-		<ion-col>
-		  	<button ion-button color="primary" clear small icon-start>
-		    	<ion-icon name='thumbs-up'></ion-icon>
-		    	106 Likes
-		  	</button>
-		</ion-col>
-		<ion-col>
-		  	<button ion-button color="primary" clear small icon-start>
-		    	<ion-icon name='text'></ion-icon>
-		    	28 Comments
-		  	</button>
-		</ion-col>
-		<ion-col>
-		  	<button ion-button clear small icon-start>
-		    	<ion-icon name='bookmark'></ion-icon>		    	
-		  	</button>		
-		</ion-col>
-		<ion-col align-self-center text-center>
-		  	<ion-note>
-		    	2d ago
-		  	</ion-note>
-		</ion-col>
-	</ion-row>
-</ion-card>
 
 </ion-content>

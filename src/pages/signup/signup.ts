@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth';	
 import CryptoJS from 'crypto-js';
+import { Storage } from '@ionic/storage';
 
 import { LoadingController, AlertController } from "ionic-angular";
 
@@ -13,8 +14,9 @@ import { LoadingController, AlertController } from "ionic-angular";
 export class SignupPage {
 	constructor(private authService: AuthService,
                 private loadingCtrl: LoadingController,
-                private alertCtrl: AlertController) {}
-
+                private alertCtrl: AlertController,
+                private storage: Storage) {}
+  
 	onSignup(form: NgForm){
 
 		const loading = this.loadingCtrl.create({
@@ -33,6 +35,8 @@ export class SignupPage {
 			.then(data => {
 				// When the signup proess is successful then dismisses the loading content
         		loading.dismiss();
+
+        		this.storage.set('email', form.value.email);
       		})
 
       		// Error handling 

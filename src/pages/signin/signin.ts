@@ -4,6 +4,7 @@ import { SignupPage } from '../signup/signup';
 import { NgForm } from '@angular/forms';
 import { AuthService } from '../../services/auth';
 import CryptoJS from 'crypto-js';
+import { Storage } from '@ionic/storage';
 
 @Component({
   selector: 'page-login',
@@ -14,7 +15,8 @@ export class SigninPage {
   constructor(private authService: AuthService,
               private loadingCtrl: LoadingController,
               private alertCtrl: AlertController,
-              private navCtrl: NavController) {
+              private navCtrl: NavController,
+              private storage: Storage) {
   }
 
   onSignin(form: NgForm){
@@ -46,6 +48,13 @@ export class SigninPage {
           });
           alert.present();    // Presents the alert to the user
         });      
+  }
+
+  ionViewDidLoad() {
+    let mail = null;
+    this.storage.get('email').then((data) => {
+      this.mail = data;
+    });
   }
 
   onGoToSignUp(){

@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, Validators, FormArray } from "@angular/forms";
 import { NavParams, ActionSheetController, AlertController, ToastController, NavController } from 'ionic-angular';
 import { PostsService } from "../../services/posts";
+import { Post } from "../../models/post";
+import { AuthService } from "../../services/auth";
 
 @Component({
   selector: 'page-post',
@@ -10,23 +12,28 @@ import { PostsService } from "../../services/posts";
 
 // OnInit is an alternative way to retrieve data besides contructor
 export class PostPage implements OnInit {
-  mode = 'New';
+  mode = 'New';   // default mode value is New
   postForm: FormGroup;  // Type of FormGroup as any forms creating with reactive approach
+  post: Post;
+  index: number;
 
   constructor(public navParams: NavParams,
               private actionSheetController: ActionSheetController,
               private alertCtrl: AlertController,
               private toastCtrl: ToastController,
               private postsService: PostsService,
-              private navCtrl: NavController) {
+              private navCtrl: NavController,
+              private authService: AuthService) {
 
   }
 
   ngOnInit() {
     this.mode = this.navParams.get('mode');
+
+    // mode can be New or Edit 
     if (this.mode == 'Edit') {
-      //this.recipe = this.navParams.get('recipe');
-      //this.index = this.navParams.get('index');
+      this.post = this.navParams.get('post');
+      this.index = this.navParams.get('index');
     }
     this.initializeForm();  // Call initializeFrom method
   }
@@ -34,35 +41,63 @@ export class PostPage implements OnInit {
   onSubmit() {
     //console.log(this.postForm);
     const value = this.postForm.value;
-    // Declare this array in order to use amount property from post model
+    // Declare this array in order to use name property from post model
     let details = [];
     if (value.details.length > 0) {
       // Tranform an array of string into an array of objects
       details = value.details.map(name => {
-        return {name: name, amount: 1};
+        return {name: name};
       });
     }
-    // if (this.mode == 'Edit') {
-    //   this.recipesService.updateRecipe(this.index, value.title, value.description, value.difficulty, ingredients);
-    // } else {
+
+    // if the mode is Edit, update the post with updatePost method from postsService
+    if (this.mode == 'Edit') {
+      this.postsService.updatePost(this.index, value.title, value.description, details);
+    } else {
       this.postsService.addPost(value.title, value.description, details);
-    // }
+    }
+
+    // storePost method is used to store data to firebase 
+    this.authService.getActiveUser().getToken()
+    .then(
+      (token: string) => {
+        this.postsService.storePost(token)
+          .subscribe(
+            () =>            
+            error => {
+              // Show error message if something goes wrong 
+              this.handleError(error.json().error);
+            }
+          );
+      }
+    );
+
     this.postForm.reset();
     this.navCtrl.popToRoot();   // go back to root page
+    
   }
 
+  // handleError method 
+  private handleError(errorMessage: string) {
+    const alert = this.alertCtrl.create({
+      title: 'An error occurred!',
+      message: errorMessage,
+      buttons: ['Ok']
+    });
+    alert.present();
+  }
 
   onEditPosts() {
     // An Action Sheet is a dialog that lets the user choose from a set of options. It appears on top of the app's content.
     // "Ionic Framework", Ionic Framework, 2017. [Online]. Available: https://ionicframework.com/docs/api/components/action-sheet/ActionSheetController/. [Accessed: 08- Sep- 2017].
     const actionSheet = this.actionSheetController.create({
-      title: 'What do you want to do?',
+      title: 'Choose an option',
       buttons: [
         {
           text: 'Add Author',
           handler: () => {
             // Shows a dialog 
-            this.createNewPostAlert().present();
+            this.createNewDetailPostAlert().present();
           }
         },
         {
@@ -99,12 +134,12 @@ export class PostPage implements OnInit {
     actionSheet.present();
   }
 
-  private createNewPostAlert() {
+  private createNewDetailPostAlert() {
     return this.alertCtrl.create({
       title: 'Add Author',
       inputs: [
         {
-          name: 'name', // name for new posts 
+          name: 'name', // author name for new posts 
           placeholder: 'Name'
         }
       ],
@@ -116,7 +151,7 @@ export class PostPage implements OnInit {
         {
           text: 'Add',
           handler: data => {
-            // trim or cut the strings to a couple of whitespace 
+            // trim or cut the strings to a couple of spaces
             if (data.name.trim() == '' || data.name == null) {
               // toast will show a message at the bottom of the screen
               // https://ionicframework.com/docs/api/components/toast/ToastController/
@@ -145,26 +180,27 @@ export class PostPage implements OnInit {
     });
   }
 
+  // Initialize forms
   private initializeForm() {
-    // let title = null;
-    // let description = null;
-    // let difficulty = 'Medium';
-    // let ingredients = [];
+    let title = null;
+    let description = null;    
+    let details = [];
 
-    // if (this.mode == 'Edit') {
-    //   title = this.recipe.title;
-    //   description = this.recipe.description;
-    //   difficulty = this.recipe.difficulty;
-    //   for (let ingredient of this.recipe.ingredients) {
-    //     ingredients.push(new FormControl(ingredient.name, Validators.required));
-    //   }
-    // }
+    // If the mode is Edit, user can change by overwriting the exising information of the post 
+    if (this.mode == 'Edit') {
+      // post is called from ngOnInit() method above
+      title = this.post.title;
+      description = this.post.description;
+      
+      for (let detail of this.post.details) {
+        details.push(new FormControl(detail.name, Validators.required));
+      }
+    }
 
-    // Initialize forms
     this.postForm = new FormGroup({
-      'title': new FormControl(null, Validators.required),   // passing validator reference to each form
-      'description': new FormControl(null, Validators.required),
-      'details': new FormArray([])   // FormArray holds an array of form controls
+      'title': new FormControl(title, Validators.required),   // passing validator reference to each form
+      'description': new FormControl(description, Validators.required),
+      'details': new FormArray(details)   // FormArray holds an array of form controls
     });
   }
 }
