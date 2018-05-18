@@ -1,6 +1,6 @@
 This is a starter template for [Ionic](http://ionicframework.com/docs/) projects.
 
-[![IMAGE ALT TEXT HERE](http://img.youtube.com/vi/Vycf8MM8Ix8/0.jpg)](http://www.youtube.com/watch?v=Vycf8MM8Ix8)
+[![IMAGE ALT TEXT HERE]](http://www.youtube.com/watch?v=Vycf8MM8Ix8)
 
 ## How to use this template
 
